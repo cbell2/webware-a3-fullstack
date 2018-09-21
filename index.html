@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Assignment 3</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+    crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+  <style>
+    body {
+      width: 100wh;
+      height: 90vh;
+      /* color: #fff; */
+      background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+      background-size: 400% 400%;
+      -webkit-animation: Gradient 15s ease infinite;
+      -moz-animation: Gradient 15s ease infinite;
+      animation: Gradient 15s ease infinite;
+    }
+
+    @-webkit-keyframes Gradient {
+      0% {
+        background-position: 0% 50%
+      }
+
+      50% {
+        background-position: 100% 50%
+      }
+
+      100% {
+        background-position: 0% 50%
+      }
+    }
+
+    @-moz-keyframes Gradient {
+      0% {
+        background-position: 0% 50%
+      }
+
+      50% {
+        background-position: 100% 50%
+      }
+
+      100% {
+        background-position: 0% 50%
+      }
+    }
+
+    @keyframes Gradient {
+      0% {
+        background-position: 0% 50%
+      }
+
+      50% {
+        background-position: 100% 50%
+      }
+
+      100% {
+        background-position: 0% 50%
+      }
+    }
+
+    /* h1,
+		h6 {
+			font-family: 'Open Sans';
+			font-weight: 300;
+			text-align: center;
+			position: absolute;
+			top: 45%;
+			right: 0;
+			left: 0;
+		} */
+
+    .card {
+      display: inline-block;
+      margin: 10px;
+    }
+
+    input {
+      outline: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <br>
+
+  <!-- <form>
+    <input id="id" type="text" readonly="readonly">
+    <input id="title" type="text">
+    <input id="sub" type="text">
+    <button id="save">Save</button>
+  </form> -->
+
+
+  <h1 style="font-family: 'Open Sans'; font-weight: 300; text-align: center; color: white; text-shadow: 2px 2px 4px #000000;">
+    Assignment 3 - Task Planner</h1>
+
+<br><br>
+  <div id="addCard" onclick="create()" class="card" style="display:-webkit-box; width: 275px; margin:0 auto; background-color:rgba(255,255,255,.6); box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+    <div class="card-body" style="width: 100%">
+      <h5 class="card-title" style="text-align:center"> Add Card</h5>
+      <h6 class="card-subtitle mb-2 text-muted" style="text-align:center">Click to create a new card</h6>
+      <p class="card-text" style="text-align:center">
+        <i class="fas fa-plus" style="font-size: 80px"></i>
+      </p>
+    </div>
+  </div>
+
+
+  <!-- <div id="startCard" class="card-deck" style="width:100%; margin-left: 0%"> -->
+
+
+
+  <!-- </div> -->
+
+  <!-- <div id="delCard" class="card" style="width: 18rem; background-color:rgba(255,255,255,.6);     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+      <div class="card-body">
+        <h5 class="card-title" style="text-align:center"> Delete Section</h5>
+        <h6 class="card-subtitle mb-2 text-muted" style="text-align:center">Click to delete a new section</h6>
+        <p class="card-text" style="text-align:center">
+          <i class="fas fa-minus" style="font-size: 80px"></i>
+        </p>
+      </div>
+    </div> -->
+
+
+
+  <br>
+  <br>
+
+  <div id="results" style="text-align: center">
+
+  </div>
+
+
+</body>
+
+</html>
+
+<script>
+
+  // ---------------------- EVENT CODE ---------------------------
+
+  // USED FOR DEBUGGING
+  function titleFocus(id) {
+    document.getElementById('title_' + id).style.background = "yellow";
+  };
+
+  function titleBlur(id) {
+
+    var request = new XMLHttpRequest();
+    request.open('GET', '/read');
+    request.responseType = 'json';
+    request.onload = function () {
+      tasks_arr = request.response;
+
+      for (i = 0; i < tasks_arr.length; i++) {
+        if (id == tasks_arr[i].id) {
+          var listStr = tasks_arr[i].list;
+          var task = {};
+          task.title = document.getElementById('title_' + id).textContent;
+          task.sub = document.getElementById('sub_' + id).textContent;
+          task.list = listStr;
+          task.id = id;
+          update(task);
+          event.preventDefault();
+          break;
+        }
+
+      }
+
+    };
+
+    request.send();
+
+  };
+
+  // USED FOR DEBUGGING
+  function subFocus(id) {
+    document.getElementById('sub_' + id).style.background = "yellow";
+  };
+
+  function subBlur(id) {
+
+    var request = new XMLHttpRequest();
+    request.open('GET', '/read');
+    request.responseType = 'json';
+    request.onload = function () {
+      tasks_arr = request.response;
+
+      for (i = 0; i < tasks_arr.length; i++) {
+        if (id == tasks_arr[i].id) {
+          var listStr = tasks_arr[i].list;
+          var task = {};
+          task.title = document.getElementById('title_' + id).textContent;
+          task.sub = document.getElementById('sub_' + id).textContent;
+          task.list = listStr;
+          task.id = id;
+          update(task);
+          event.preventDefault();
+          break;
+        }
+ 
+      }
+
+    };
+
+    request.send();
+
+  };
+
+  function listBlur() {
+
+setTimeout(function() {
+    var request = new XMLHttpRequest();
+    request.open('GET', '/read');
+    request.responseType = 'json';
+    request.onload = function () {
+      tasks_arr = request.response;
+      for (i = 0; i < tasks_arr.length; i++) {
+        var id = tasks_arr[i].id;
+        var str = tasks_arr[i].list;
+        var res = str.split(',');
+        var newList = [];
+        for (y = 0; y < res.length; y++) {
+          if (y == res.length - 1) {
+            newList.push(document.getElementById('addTask_' + y + '_' + id).textContent);
+          }
+          else {
+            newList.push(document.getElementById('addTask_' + y + '_' + id).textContent + ",");
+          }
+        }
+        // alert(newList.join(""));
+        var task = {};
+        task.title = document.getElementById('title_' + id).textContent;
+        task.sub = document.getElementById('sub_' + id).textContent;
+        task.list = newList.join("");
+        task.id = id;
+        update(task);
+        event.preventDefault();
+
+      }
+
+    };
+
+    request.send();
+  }, 100);
+  };
+
+
+  function finishTask() {  
+
+    var request = new XMLHttpRequest();
+    request.open('GET', '/read');
+    request.responseType = 'json';
+    request.onload = function () {
+      tasks_arr = request.response;
+      for (i = 0; i < tasks_arr.length; i++) {
+        var id = tasks_arr[i].id;
+        var str = tasks_arr[i].list;
+        var res = str.split(',');
+        var newList = [];
+        var isEnd = 0;
+        for (y = 0; y < res.length; y++) {
+          if (document.getElementById('addTask_' + y + '_' + id).textContent == "") {
+            if(y == res.length - 1) {
+              // alert("NEWLIST: " + newList);
+              isEnd = 1;
+            }
+          }
+          else if (y == res.length - 1) {
+            newList.push(document.getElementById('addTask_' + y + '_' + id).textContent);
+          }
+          else {
+            newList.push(document.getElementById('addTask_' + y + '_' + id).textContent + ",");
+          }
+        }
+
+        var updatedList = newList.join("");
+        // alert(newList.join(""));
+        if (isEnd == 1) {
+          // alert("IS END: " + updatedList.slice(0, -1));
+          updatedList = updatedList.slice(0, -1);
+        }
+        var task = {};
+        task.title = document.getElementById('title_' + id).textContent;
+        task.sub = document.getElementById('sub_' + id).textContent;
+        task.list = updatedList;
+        // console.log(task.list);
+        task.id = id;
+        update(task);
+        event.preventDefault();
+
+      }
+
+    };
+
+    request.send();
+
+  };
+
+
+  function addTask(id) {
+
+    var request = new XMLHttpRequest();
+    request.open('GET', '/read');
+    request.responseType = 'json';
+    request.onload = function () {
+      tasks_arr = request.response;
+
+      for (i = 0; i < tasks_arr.length; i++) {
+        if (id == tasks_arr[i].id) {
+          var task = {};
+          var str = tasks_arr[i].list;
+          var res = str.split(',');
+          // alert(res[0]);
+          task.title = document.getElementById('title_' + id).textContent;
+          task.sub = document.getElementById('sub_' + id).textContent;
+          var newList = [];
+          newList.push((tasks_arr[i].list).trim());
+          newList.push(',newTask');
+
+          task.list = newList.join("").trim();
+          task.id = id;
+          update(task);
+          event.preventDefault();
+          break;
+        }
+
+      }
+
+    };
+
+    request.send();
+
+  }
+
+  // ---------------------- DATABASE CODE ---------------------------
+
+  // init, or what we need to build the results page to begin with
+  var tasks_arr = [];
+  read();
+
+  // reads all data from server, and calls build
+  function read() {
+    var request = new XMLHttpRequest();
+    request.open('GET', '/read');
+    request.responseType = 'json';
+    request.onload = function () {
+      tasks_arr = request.response;
+      build(tasks_arr);
+
+      //NEW
+      for (i = 0; i < tasks_arr.length; i++) {
+        var id = tasks_arr[i].id;
+        // alert(tasks_arr[i].list);
+        // var str = document.getElementById('list_' + id).textContent;
+        var str = tasks_arr[i].list;
+        var res = str.split(',');
+        // console.log("THIS IS RESPONSE:" + res);
+        // alert(res[0]);
+        for (y = 0; y < res.length; y++) {
+          var li = document.createElement('li');
+          li.className = 'list-group-item';
+          li.innerHTML = res[y];
+          li.id = 'addTask_' + y + '_' + id;
+          // li.onfocus = listBlur('${task.id}', 'li.id');
+
+          li.contentEditable = 'true';
+          li.setAttribute('onBlur', "listBlur()");
+          // <i class="fas fa-check" style="font-size: 20px; position: absolute; right: 15px"></i>
+          var check = document.createElement('i');
+          check.className = 'fas fa-check';
+          check.style = 'font-size: 20px; position: absolute; right: 15px';
+          check.id = 'check_' + y + '_' + id;
+          // var nums = check.id.split('_');
+          // console.log(nums[1]);
+          check.setAttribute('onClick', "finishTask()");
+          li.appendChild(check);
+          document.getElementById("addList_" + id).appendChild(li);
+        }
+      }
+    };
+    request.send();
+  }
+
+  // builds an html string by looping through movies, adds to #results
+  function build(tasks_arr) {
+    // https://wesbos.com/template-strings-html/
+    var results_html = `${
+      tasks_arr.map(task =>
+        `
+
+     <div id=${task.id} class="card" style="width: 275px; background-color: rgba(255, 255, 255, 0.6); box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;">
+     <div class="card-body" id="body_${task.id}">
+     <h5 class="card-title"  onblur="titleBlur('${task.id}')"; id="title_${task.id}" contenteditable="true" style="text-align: center; outline: none;"> ${task.title}</h5>
+     <h6 class="card-subtitle mb-2 text-muted"  onblur="subBlur('${task.id}')"; id="sub_${task.id}" contenteditable="true" style="text-align: center; outline: none;">${task.sub}</h6>
+     <button id="del_${task.id}" style="outline: none; border: none; background: none; position: absolute; top: 0px; right: 0px;" onclick="del('${task.id}')"> <i class="fas fa-times"></i></i> </button>
+     </div>
+
+     <ul class="list-group list-group-flush" id="addList_${task.id}" style="text-align: center;">
+        <ul class="list-group list-group-flush" style="text-align: center;">
+     </ul>
+     </ul>
+
+     <ul class="list-group list-group-flush" style="text-align: center;">
+     <li class="list-group-item" id="addList__${task.id}" style="background: #ececec;">Add Task <i class="fas fa-plus" onclick="addTask('${task.id}')"; style="font-size: 20px; position: absolute; right: 15px"></i></li>
+     </ul>
+     </div>
+
+
+
+    `
+      ).join('')
+      }`
+    document.getElementById('results').innerHTML = results_html;
+  }
+
+  // moves a row from results to the form, for user editing
+  // function move_row(id) {
+  //   task_current = tasks_arr.filter(function (d) { return d.id === id; })[0];
+  //   document.getElementById('id').value = task_current.id;
+  //   document.getElementById('title').value = task_current.title;
+  //   document.getElementById('sub').value = task_current.sub;
+  // }
+
+  // updates specific line on the server, based on user input
+  function update(task) {
+    var request = new XMLHttpRequest();
+    request.open('PUT', '/update');
+    request.responseType = 'text';
+    request.onload = function () { console.log('done!'); read(); }
+    request.send(JSON.stringify(task));
+  }
+
+  // TODO
+  function create() {
+    var task = {};
+    // task.id = '12345';
+    task.id = Date.now().toString(36);
+    task.title = 'Title';
+    task.sub = 'Subtitle';
+    task.list = 'Task'
+    var request = new XMLHttpRequest();
+    request.open('POST', '/create');
+    request.responseType = 'text';
+    request.onload = function () { console.log('done!'); read(); }
+    request.send(JSON.stringify(task));
+  }
+
+  // TODO
+  function del(id) { // 'delete' is a protected word
+    task_current = tasks_arr.filter(function (d) { return d.id === id; })[0];
+    var request = new XMLHttpRequest();
+    request.open('DELETE', '/delete');
+    request.responseType = 'text';
+    request.onload = function () { console.log('done!'); read(); }
+    request.send(JSON.stringify(task_current));
+  }
+
+
+</script>
