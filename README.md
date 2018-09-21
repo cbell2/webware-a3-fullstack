@@ -1,4 +1,4 @@
-## Chris Bell | Task Planner
+## Chris Bell | Task Planner (https://a3-cbell2.herokuapp.com/)
 For assignment 3, I built a task planner / scheduler website where you can create cards that represent a broad category in which you can append tasks to. You can add a new card by clicking on the "Add Card" button beneath the title. The title, subtitle, and initial task are defaulted and can be edited once created. All the data within the cards themselves are editable (title, subtitle, and tasks) and will update on blur so you don't have to take any extra steps apart from just editing the text like you would normally. You can add a new task via pressing "+" in the "Add Task" section of the cards. It will create a new task, defaulted to "newTask," which you can then edit to your liking. Tasks can be deleted by first deleting the text so just "" remains, and then by pressing the check next to it. Each card must have a task (why would you make a card without tasks in the task scheduler?) so deleting a task within a card with a single task will not work.
 
 ## Technical Achievements
